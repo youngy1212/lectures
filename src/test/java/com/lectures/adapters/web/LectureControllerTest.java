@@ -1,12 +1,17 @@
 package com.lectures.adapters.web;
 
 import static org.hamcrest.Matchers.hasSize;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.lectures.application.LectureService;
+import com.lectures.application.ReservationFacade;
 import com.lectures.application.ReservationLectureService;
 import com.lectures.application.dto.LectureDto;
 import com.lectures.domain.lecture.Lecture;
@@ -30,6 +35,9 @@ class LectureControllerTest {
 
     @MockitoBean
     private ReservationLectureService reservationLectureService;
+
+    @MockitoBean
+    private ReservationFacade reservationFacade;
 
     @DisplayName("특정 날짜의 특강 목록을 조회한다")
     @Test
@@ -77,6 +85,25 @@ class LectureControllerTest {
                 .andExpect(jsonPath("$[0].title").value("특강1"))
                 .andExpect(jsonPath("$[1].title").value("특강2"));
 
+    }
+
+    @DisplayName("userId와 lectureId를 받아 특강을 신청한다.")
+    @Test
+    void saveReservationLectureApply() throws Exception {
+        // given
+        Long userId = 1L;
+        Long lectureId = 2L;
+
+        // reservationFacade의 메서드 호출에 대한 동작 정의
+        doNothing().when(reservationFacade).ReservationLectureApply(userId, lectureId);
+
+        // when & then
+        mockMvc.perform(get("/{lectureId}/reserve", lectureId)
+                        .param("userId", userId.toString()))
+                .andExpect(status().isOk())
+                .andExpect(content().string("ok"));
+
+        verify(reservationFacade, times(1)).ReservationLectureApply(userId, lectureId);
     }
 
 }
