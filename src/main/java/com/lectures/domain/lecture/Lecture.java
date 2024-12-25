@@ -40,8 +40,8 @@ public class Lecture extends BaseEntity {
         this.currentReservationCount = currentReservationCount;
     }
 
-    public static Lecture create(String title, String lecturerName, LocalDate lectureDate, int capacity,
-                                 int currentReservationCount) {
+    public static Lecture of(String title, String lecturerName, LocalDate lectureDate, int capacity,
+                             int currentReservationCount) {
         return new Lecture(title, lecturerName, lectureDate, capacity, currentReservationCount);
     }
 

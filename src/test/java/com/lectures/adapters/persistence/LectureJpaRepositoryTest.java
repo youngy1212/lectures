@@ -1,7 +1,6 @@
 package com.lectures.adapters.persistence;
 
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 import com.lectures.domain.lecture.Lecture;
 import java.time.LocalDate;
@@ -23,9 +22,9 @@ class LectureJpaRepositoryTest {
     void FindLecturesByDate() {
         // given
         LocalDate targetDate = LocalDate.of(2024, 12, 25);
-        Lecture lecture1 = Lecture.create("강의1", "강사1", LocalDate.of(2024, 12, 25),30,20);
-        Lecture lecture2 = Lecture.create("강의2", "강사2", LocalDate.of(2024, 12,25),30,30);
-        Lecture lecture3 = Lecture.create("강의3", "강사3", LocalDate.of(2024, 12,26),30,30);
+        Lecture lecture1 = Lecture.of("강의1", "강사1", LocalDate.of(2024, 12, 25),30,20);
+        Lecture lecture2 = Lecture.of("강의2", "강사2", LocalDate.of(2024, 12,25),30,30);
+        Lecture lecture3 = Lecture.of("강의3", "강사3", LocalDate.of(2024, 12,26),30,30);
 
         lectureJpaRepository.save(lecture1);
         lectureJpaRepository.save(lecture2);

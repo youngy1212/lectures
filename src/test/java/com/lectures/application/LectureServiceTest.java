@@ -19,9 +19,9 @@ class LectureServiceTest {
     void testGeLecturesByDate() {
         // given
         LocalDate date = LocalDate.now();
-        Lecture lecture1 = Lecture.create("특강1", "강사1", date, 30, 20);
-        Lecture lecture2 = Lecture.create("특강2", "강사2", date, 30, 30);
-        Lecture lecture3 = Lecture.create("특강3", "강사3", date, 30, 10);
+        Lecture lecture1 = Lecture.of("특강1", "강사1", date, 30, 20);
+        Lecture lecture2 = Lecture.of("특강2", "강사2", date, 30, 30);
+        Lecture lecture3 = Lecture.of("특강3", "강사3", date, 30, 10);
 
         LectureJpaRepository lectureJpaRepository = Mockito.mock(LectureJpaRepository.class);
         when(lectureJpaRepository.findLecturesByDate(date)).thenReturn(List.of(

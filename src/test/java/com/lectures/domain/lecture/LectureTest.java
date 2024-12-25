@@ -13,7 +13,7 @@ class LectureTest {
     @Test
     void isAvailable_WhenCurrentApplicantCountLessThanCapacity_ReturnsTrue() {
         // given
-        Lecture lecture = Lecture.create(
+        Lecture lecture = Lecture.of(
                 "특강이름",
                 "강사이름",
                 LocalDate.now(),
@@ -32,7 +32,7 @@ class LectureTest {
     @Test
     void isAvailable_WhenCurrentApplicantCountEqualsCapacity_ReturnsFalse() {
         // given
-        Lecture lecture = Lecture.create(
+        Lecture lecture = Lecture.of(
                 "특강이름",
                 "강사이름",
                 LocalDate.now(),
@@ -51,7 +51,7 @@ class LectureTest {
     @Test
     void incrementReservationCount() {
         // given
-        Lecture lecture = Lecture.create(
+        Lecture lecture = Lecture.of(
                 "특강이름",
                 "강사이름",
                 LocalDate.now(),
@@ -70,7 +70,7 @@ class LectureTest {
     @Test
     void incrementReservationCount_Full_ThrowsException() {
         // given
-        Lecture lecture = Lecture.create(
+        Lecture lecture = Lecture.of(
                 "특강이름",
                 "강사이름",
                 LocalDate.now(),

@@ -1,12 +1,13 @@
 package com.lectures.adapters.web;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.lectures.application.LectureService;
+import com.lectures.application.ReservationLectureService;
 import com.lectures.application.dto.LectureDto;
 import com.lectures.domain.lecture.Lecture;
 import java.time.LocalDate;
@@ -27,15 +28,18 @@ class LectureControllerTest {
     @MockitoBean
     private LectureService lectureService;
 
+    @MockitoBean
+    private ReservationLectureService reservationLectureService;
+
     @DisplayName("특정 날짜의 특강 목록을 조회한다")
     @Test
     void testGetLecturesByDate() throws Exception {
         // Given
         LocalDate date = LocalDate.of(2024, 12, 25);
 
-        LectureDto lecture1 = LectureDto.from(Lecture.create("특강1", "강사1", date, 30, 20));
-        LectureDto lecture2 =  LectureDto.from(Lecture.create("특강2", "강사2", date, 30, 30));
-        LectureDto lecture3 =  LectureDto.from(Lecture.create("특강3", "강사3", date, 30, 10));
+        LectureDto lecture1 = LectureDto.from(Lecture.of("특강1", "강사1", date, 30, 20));
+        LectureDto lecture2 =  LectureDto.from(Lecture.of("특강2", "강사2", date, 30, 30));
+        LectureDto lecture3 =  LectureDto.from(Lecture.of("특강3", "강사3", date, 30, 10));
 
 
         List<LectureDto> lectureList = List.of(lecture1, lecture2,lecture3);
@@ -49,6 +53,28 @@ class LectureControllerTest {
                 .andExpect(jsonPath("$[0].title").value("특강1"))
                 .andExpect(jsonPath("$[1].title").value("특강2"))
                 .andExpect(jsonPath("$[2].title").value("특강3"));
+
+    }
+
+    @DisplayName("사용자가 예약한 강의 목록을 조회한다")
+    @Test
+    void testGetActiveLecturesByUserId() throws Exception {
+        // Given
+        Long userId = 1L;
+
+        Lecture lecture = Lecture.of("특강1", "강사1", LocalDate.now(), 30, 20);
+        Lecture lecture2 = Lecture.of("특강2", "강사2", LocalDate.now(), 30, 30);
+
+        List<LectureDto> lectureDto = List.of(LectureDto.from(lecture));
+
+        when(reservationLectureService.getActiveLecturesByUserId(userId)).thenReturn(lectureDto);
+
+        // When & Then
+        mockMvc.perform(get("/reservations/lectures")
+                        .param("userId", userId.toString()))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(1)))
+                .andExpect(jsonPath("$[0].title").value("특강1"));
 
     }
 
