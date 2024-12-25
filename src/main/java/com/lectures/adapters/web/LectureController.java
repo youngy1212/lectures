@@ -23,7 +23,7 @@ public class LectureController {
     // 특강 목록 조회 API
     @GetMapping("/lectures")
     public List<LectureDto> getLecturesByDate(
-            @RequestParam(required = true) LocalDate date) {
+            @RequestParam LocalDate date) {
         return lectureService.getLecturesByDate(date);
     }
 

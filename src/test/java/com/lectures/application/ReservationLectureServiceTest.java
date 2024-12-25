@@ -4,7 +4,6 @@ package com.lectures.application;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
-import com.lectures.adapters.persistence.LectureJpaRepository;
 import com.lectures.adapters.persistence.ReservationLectureJpaRepository;
 import com.lectures.application.dto.LectureDto;
 import com.lectures.domain.lecture.Lecture;
@@ -32,21 +31,18 @@ class ReservationLectureServiceTest {
 
         User user = User.of("수강자1");
 
-
-
         //mocking
         ReservationLectureJpaRepository reservationLectureJpaRepository = Mockito.mock(ReservationLectureJpaRepository.class);
 
         ReservationLectureService reservationLectureService = new ReservationLectureService(
                 reservationLectureJpaRepository
         );
+
         ReservationLecture reservationLecture1 = ReservationLecture.of(user, lecture1, ReservationStatus.ACTIVE);
         ReservationLecture reservationLecture2 = ReservationLecture.of(user, lecture2, ReservationStatus.INACTIVE);
         ReservationLecture reservationLecture3 = ReservationLecture.of(user, lecture3, ReservationStatus.ACTIVE);
 
-
         List<ReservationLecture> reservationLectures = List.of(reservationLecture1, reservationLecture3);
-        List<Lecture> lectures = List.of(lecture1, lecture3);
 
         when(reservationLectureJpaRepository.findByUserIdAndReservationStatus(userId, ReservationStatus.ACTIVE))
                 .thenReturn(reservationLectures);

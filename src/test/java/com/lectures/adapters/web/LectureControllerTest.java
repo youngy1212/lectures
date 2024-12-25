@@ -65,7 +65,7 @@ class LectureControllerTest {
         Lecture lecture = Lecture.of("특강1", "강사1", LocalDate.now(), 30, 20);
         Lecture lecture2 = Lecture.of("특강2", "강사2", LocalDate.now(), 30, 30);
 
-        List<LectureDto> lectureDto = List.of(LectureDto.from(lecture));
+        List<LectureDto> lectureDto = List.of(LectureDto.from(lecture),LectureDto.from(lecture2));
 
         when(reservationLectureService.getActiveLecturesByUserId(userId)).thenReturn(lectureDto);
 
@@ -73,8 +73,9 @@ class LectureControllerTest {
         mockMvc.perform(get("/reservations/lectures")
                         .param("userId", userId.toString()))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$", hasSize(1)))
-                .andExpect(jsonPath("$[0].title").value("특강1"));
+                .andExpect(jsonPath("$", hasSize(2)))
+                .andExpect(jsonPath("$[0].title").value("특강1"))
+                .andExpect(jsonPath("$[1].title").value("특강2"));
 
     }
 

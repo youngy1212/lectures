@@ -1,10 +1,7 @@
 package com.lectures.application;
 
-
-import com.lectures.adapters.persistence.LectureJpaRepository;
 import com.lectures.adapters.persistence.ReservationLectureJpaRepository;
 import com.lectures.application.dto.LectureDto;
-import com.lectures.domain.lecture.Lecture;
 import com.lectures.domain.reservation.ReservationLecture;
 import com.lectures.domain.reservation.ReservationStatus;
 import java.util.List;

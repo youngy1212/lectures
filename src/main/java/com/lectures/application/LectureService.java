@@ -5,8 +5,6 @@ import com.lectures.application.dto.LectureDto;
 import com.lectures.domain.lecture.Lecture;
 import com.lectures.domain.lecture.LectureRepository;
 import java.time.LocalDate;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import org.springframework.stereotype.Service;
 
