@@ -76,3 +76,14 @@ L domain
 @QueryHint(name = "javax.persistence.lock.timeout", value = "3000")  
 ```
 
+## 유비쿼터스 언어 정리
+
+| 용어                                    | 정의                                      |
+|---------------------------------------|-----------------------------------------|
+| **사용자(User)**                         | 시스템에 로그인하여 강의를 예약하는 개인                  |
+| **강의(Lecture)**                       | 특정 날짜에 진행되는 특강                          |
+| **강의 예약(ReservationLecture)**         | 사용자가 신청한 강의 예약                          |
+| **예약 상태(ReservationStatus)**          | 예약의 현재 상태를 나타냄 (ACTIVE 활성,INACTIVE 비활성) |
+| **정원(Capacity)**                      | 강의에 신청 할 수 있는 최대 수                      |
+| **현재 예약 인원(currentReservationCount)** | 현재 해당 강의에 예약 수                          |         
+
