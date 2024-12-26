@@ -22,5 +22,10 @@ public class LectureService  {
                 .map(LectureDto::from).toList();
     }
 
+    public Lecture findLectureById(Long lectureId) {
+        return lectureRepository.findByIdWithPessimisticLock(lectureId)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 강의입니다."));
+    }
+
 
 }

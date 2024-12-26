@@ -25,5 +25,12 @@ public class ReservationLectureService {
                 .collect(Collectors.toList());
     }
 
+    public void findReservationBySameUser(Long userId, Long lectureId) {
+        int count = reservationLectureRepository.countByUserIdAndLectureId(userId, lectureId);
+
+        if (count > 0) {
+            throw new IllegalArgumentException("이미 신청한 강의입니다.");
+        }
+    }
 
 }

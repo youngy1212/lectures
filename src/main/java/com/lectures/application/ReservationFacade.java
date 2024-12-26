@@ -4,9 +4,12 @@ import com.lectures.adapters.persistence.LectureJpaRepository;
 import com.lectures.adapters.persistence.ReservationLectureJpaRepository;
 import com.lectures.adapters.persistence.UserJpaRepository;
 import com.lectures.domain.lecture.Lecture;
+import com.lectures.domain.lecture.LectureService;
 import com.lectures.domain.reservation.ReservationLecture;
+import com.lectures.domain.reservation.ReservationLectureService;
 import com.lectures.domain.reservation.ReservationStatus;
 import com.lectures.domain.user.User;
+import com.lectures.domain.user.UserService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,33 +18,31 @@ import org.springframework.transaction.annotation.Transactional;
 public class ReservationFacade {
 
     private final ReservationLectureJpaRepository reservationLectureJpaRepository;
-    private final LectureJpaRepository lectureJpaRepository;
-    private final UserJpaRepository userJpaRepository;
 
-    public ReservationFacade(ReservationLectureJpaRepository reservationLectureJpaRepository,
-                             LectureJpaRepository lectureJpaRepository, UserJpaRepository userJpaRepository) {
+    private final UserService userService;
+    private final LectureService lectureService;
+    private final ReservationLectureService reservationLectureService;
+
+
+    public ReservationFacade(ReservationLectureJpaRepository reservationLectureJpaRepository, UserService userService,
+                             LectureService lectureService, ReservationLectureService reservationLectureService) {
         this.reservationLectureJpaRepository = reservationLectureJpaRepository;
-        this.lectureJpaRepository = lectureJpaRepository;
-        this.userJpaRepository = userJpaRepository;
+        this.userService = userService;
+        this.lectureService = lectureService;
+        this.reservationLectureService = reservationLectureService;
     }
 
     @Transactional
     public void ReservationLectureApply(Long userId, Long lectureId) {
 
-        User user = userJpaRepository.findById(userId)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 유저입니다."));
+        //유저 체크
+        User user = userService.findUserById(userId);
 
         //동일유저 동일 체크
-        int count = reservationLectureJpaRepository.countByUserIdAndLectureId(userId, lectureId);
-
-        if (count > 0) {
-            throw new IllegalArgumentException("이미 신청한 강의입니다.");
-        }
-
+        reservationLectureService.findReservationBySameUser(userId, lectureId);
 
         //강의 조회
-        Lecture lecture = lectureJpaRepository.findByIdWithPessimisticLock(lectureId)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 강의입니다."));
+        Lecture lecture = lectureService.findLectureById(lectureId);
 
         lecture.incrementReservationCount();
 

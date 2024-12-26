@@ -21,6 +21,7 @@ public interface LectureJpaRepository extends JpaRepository<Lecture, Long> , Lec
     List<Lecture> findLecturesByDate(LocalDate date);
 
 
+    @Override
     @Lock(LockModeType.PESSIMISTIC_WRITE)
     @QueryHints({
             @QueryHint(name = "javax.persistence.lock.timeout", value = "3000")  // 락 타임아웃 설정
