@@ -32,7 +32,7 @@ public class ReservationFacade {
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 유저입니다."));
 
         //강의 조회
-        Lecture lecture = lectureJpaRepository.findById(lectureId)
+        Lecture lecture = lectureJpaRepository.findByIdWithPessimisticLock(lectureId)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 강의입니다."));
 
         lecture.incrementReservationCount();
