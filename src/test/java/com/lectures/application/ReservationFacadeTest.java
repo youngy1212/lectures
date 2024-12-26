@@ -3,8 +3,8 @@ package com.lectures.application;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -50,7 +50,7 @@ class ReservationFacadeTest {
         Lecture lecture = Lecture.of("특강1", "강사1", LocalDate.now(), 30, 20);
 
         when(userJpaRepository.findById(userId)).thenReturn(Optional.of(user));
-        when(lectureJpaRepository.findById(lectureId)).thenReturn(Optional.of(lecture));
+        when(lectureJpaRepository.findByIdWithPessimisticLock(lectureId)).thenReturn(Optional.of(lecture));
 
         // when
         reservationFacade.ReservationLectureApply(userId, lectureId);
@@ -83,7 +83,6 @@ class ReservationFacadeTest {
         Long lectureId = 2L;
 
         User user = User.of("신청자1");
-        Lecture lecture = Lecture.of("특강1", "강사1", LocalDate.now(), 30, 20);
 
         when(userJpaRepository.findById(userId)).thenReturn(Optional.of(user));
 
@@ -104,12 +103,31 @@ class ReservationFacadeTest {
         Lecture lecture = Lecture.of("특강1", "강사1", LocalDate.now(), 30, 30);
 
         when(userJpaRepository.findById(userId)).thenReturn(Optional.of(user));
-        when(lectureJpaRepository.findById(lectureId)).thenReturn(Optional.of(lecture));
+        when(lectureJpaRepository.findByIdWithPessimisticLock(lectureId)).thenReturn(Optional.of(lecture));
 
         // when // then
         assertThatThrownBy(() -> reservationFacade.ReservationLectureApply(userId, lectureId))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("정원이 초과되어 신청할 수 없습니다.");
+    }
+
+    @DisplayName("동일 유저가 예약한 수업일 경우 실패한다.")
+    @Test
+    void testReservationLectureSameUserApplyTwo() {
+        // given
+        Long userId = 1L;
+        Long lectureId = 2L;
+
+        User user = User.of("신청자1");
+
+        when(userJpaRepository.findById(userId)).thenReturn(Optional.of(user));
+        when(reservationLectureJpaRepository.countByUserIdAndLectureId(anyLong(), anyLong())).thenReturn(2);
+
+
+        // when // then
+        assertThatThrownBy(() -> reservationFacade.ReservationLectureApply(userId, lectureId))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("이미 신청한 강의입니다.");
     }
 
 

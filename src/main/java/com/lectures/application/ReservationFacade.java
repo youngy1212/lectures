@@ -31,6 +31,14 @@ public class ReservationFacade {
         User user = userJpaRepository.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 유저입니다."));
 
+        //동일유저 동일 체크
+        int count = reservationLectureJpaRepository.countByUserIdAndLectureId(userId, lectureId);
+
+        if (count > 0) {
+            throw new IllegalArgumentException("이미 신청한 강의입니다.");
+        }
+
+
         //강의 조회
         Lecture lecture = lectureJpaRepository.findByIdWithPessimisticLock(lectureId)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 강의입니다."));

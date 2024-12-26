@@ -14,4 +14,6 @@ public interface ReservationLectureJpaRepository extends JpaRepository<Reservati
     @Override
     List<ReservationLecture> findByUserIdAndReservationStatus(Long userId, ReservationStatus reservationStatus);
 
+    @Override
+    int countByUserIdAndLectureId(Long userId, Long lectureId);
 }
