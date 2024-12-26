@@ -23,7 +23,7 @@ public interface LectureJpaRepository extends JpaRepository<Lecture, Long> , Lec
 
     @Lock(LockModeType.PESSIMISTIC_WRITE)
     @QueryHints({
-            @QueryHint(name = "javax.persistence.lock.timeout", value = "3000")  // 락 타임아웃 설정 (옵션)
+            @QueryHint(name = "javax.persistence.lock.timeout", value = "3000")  // 락 타임아웃 설정
     })
     @Query("SELECT o FROM Lecture o WHERE o.id = :lectureId")
     Optional<Lecture> findByIdWithPessimisticLock(Long lectureId);
