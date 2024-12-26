@@ -4,8 +4,9 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
 import com.lectures.adapters.persistence.LectureJpaRepository;
-import com.lectures.application.dto.LectureDto;
+import com.lectures.domain.dto.LectureDto;
 import com.lectures.domain.lecture.Lecture;
+import com.lectures.domain.lecture.LectureService;
 import java.time.LocalDate;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;

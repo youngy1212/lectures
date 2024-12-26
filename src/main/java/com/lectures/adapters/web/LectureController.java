@@ -1,9 +1,9 @@
 package com.lectures.adapters.web;
 
-import com.lectures.application.LectureService;
+import com.lectures.domain.lecture.LectureService;
 import com.lectures.application.ReservationFacade;
-import com.lectures.application.ReservationLectureService;
-import com.lectures.application.dto.LectureDto;
+import com.lectures.domain.reservation.ReservationLectureService;
+import com.lectures.domain.dto.LectureDto;
 import java.time.LocalDate;
 import java.util.List;
 import org.springframework.http.ResponseEntity;

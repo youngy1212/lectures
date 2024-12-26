@@ -5,9 +5,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
 import com.lectures.adapters.persistence.ReservationLectureJpaRepository;
-import com.lectures.application.dto.LectureDto;
+import com.lectures.domain.dto.LectureDto;
 import com.lectures.domain.lecture.Lecture;
 import com.lectures.domain.reservation.ReservationLecture;
+import com.lectures.domain.reservation.ReservationLectureService;
 import com.lectures.domain.reservation.ReservationStatus;
 import com.lectures.domain.user.User;
 import java.time.LocalDate;

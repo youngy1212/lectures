@@ -1,9 +1,7 @@
-package com.lectures.application;
+package com.lectures.domain.lecture;
 
 
-import com.lectures.application.dto.LectureDto;
-import com.lectures.domain.lecture.Lecture;
-import com.lectures.domain.lecture.LectureRepository;
+import com.lectures.domain.dto.LectureDto;
 import java.time.LocalDate;
 import java.util.List;
 import org.springframework.stereotype.Service;

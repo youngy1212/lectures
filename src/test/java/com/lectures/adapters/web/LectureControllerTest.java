@@ -10,10 +10,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import com.lectures.application.LectureService;
+import com.lectures.domain.lecture.LectureService;
 import com.lectures.application.ReservationFacade;
-import com.lectures.application.ReservationLectureService;
-import com.lectures.application.dto.LectureDto;
+import com.lectures.domain.reservation.ReservationLectureService;
+import com.lectures.domain.dto.LectureDto;
 import com.lectures.domain.lecture.Lecture;
 import java.time.LocalDate;
 import java.util.List;

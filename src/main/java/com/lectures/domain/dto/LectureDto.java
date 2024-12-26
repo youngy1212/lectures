@@ -1,4 +1,4 @@
-package com.lectures.application.dto;
+package com.lectures.domain.dto;
 
 import com.lectures.domain.lecture.Lecture;
 import java.time.LocalDate;
